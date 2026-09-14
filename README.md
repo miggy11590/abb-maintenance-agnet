@@ -43,7 +43,9 @@ never have restricted documents even reach the LLM in the first place.
 - Web interface (currently a terminal script)
 - Formal threat model documentation
 - Output guard layer
-
+-Dedicated prompt injection detection/blocking (currently relies on the
+  system prompt and the underlying model's own training — no separate
+  input guard checks retrieved content before it reaches the LLM)
 ## Tech stack
 
 | Purpose | Tool |
@@ -61,3 +63,28 @@ incrementally rather than all at once — see [Roadmap](#roadmap) below.
 
 1. Clone this repo and `cd` into it.
 2. Install dependencies:
+
+3. Get a free Gemini API key at [aistudio.google.com](https://aistudio.google.com) (no credit card required).
+4. Create a `.env` file in the project root:
+
+5. Place a PDF manual at `data/equipment_manual.pdf`.
+6. Run:
+   
+   
+## Roadmap
+
+- [ ] Add metadata (page numbers) to chunks for more precise citations
+- [ ] Build a basic input guard to flag suspicious content in retrieved chunks
+  *before* they reach the LLM, rather than relying on the LLM to resist injection alone
+- [ ] Add role-based access control — enforce document permissions before retrieval
+- [ ] Add audit logging (query, documents retrieved/denied, security events)
+- [ ] Add OCR + multimodal support for scanned pages, tables, and diagrams
+- [ ] Wrap the pipeline in a FastAPI backend with a simple web frontend
+- [ ] Write up a basic threat model (assets, attackers, attack surfaces, mitigations)
+
+## Disclaimer
+
+This is a learning project and prototype, not a production security tool. It
+does not claim to detect or prevent all forms of prompt injection or
+unauthorized access — see the Roadmap for what's genuinely implemented versus
+still planned.
